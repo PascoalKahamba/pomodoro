@@ -3,11 +3,14 @@ import { useInterval } from "../Hooks/useInterval";
 import Button from "./Button";
 import Timer from "./Timer";
 interface Props {
-  defaultPromodoroTime: number;
+  PromodoroTime: number;
+  shortRestTime: number;
+  longRestTime: number;
+  cycles: number;
 }
 
-const PomodoroTimer = ({ defaultPromodoroTime }: Props) => {
-  const [mainTime, setMainTime] = useState(defaultPromodoroTime);
+const PomodoroTimer = ({ PromodoroTime }: Props) => {
+  const [mainTime, setMainTime] = useState(PromodoroTime);
   useInterval(() => {
     setMainTime(mainTime - 1);
   }, 1000);
