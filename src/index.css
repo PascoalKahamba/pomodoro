@@ -53,6 +53,8 @@ body {
 }
 .working .pomodoro button {
   background: #ef5d50;
-
   color: #fff;
+}
+.pomodoro .datails {
+  margin: 20px 0;
 }
