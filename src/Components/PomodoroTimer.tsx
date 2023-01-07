@@ -36,9 +36,15 @@ const PomodoroTimer = ({ PromodoroTime }: Props) => {
       <h2>You are working</h2>
       <Timer mainTime={mainTime} />
       <div className="controls">
-        <Button text="work" onClick={() => configureWork()} />
+        <Button
+          text={working ? "working" : "work"}
+          onClick={() => configureWork()}
+        />
         <Button text="texto" onClick={() => console.log(1)} />
-        <Button text="texto" onClick={() => console.log(1)} />
+        <Button
+          text={timeCounting ? "pause" : "play"}
+          onClick={() => setTimeCounting(!timeCounting)}
+        />
       </div>
 
       <div className="details">
