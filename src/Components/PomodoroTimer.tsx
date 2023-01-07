@@ -10,7 +10,7 @@ const PomodoroTimer = ({ defaultPromodoroTime }: Props) => {
   useInterval(() => {
     setMainTime(mainTime - 1);
   }, 1000);
-  return <div>PomodoroTimer {SecondsToTime(120)}</div>;
+  return <div>PomodoroTimer {SecondsToTime(mainTime)}</div>;
 };
 
 export default PomodoroTimer;
