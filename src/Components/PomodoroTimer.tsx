@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useInterval } from "../Hooks/useInterval";
 import Button from "./Button";
 import Timer from "./Timer";
@@ -13,6 +13,13 @@ const PomodoroTimer = ({ PromodoroTime }: Props) => {
   const [mainTime, setMainTime] = useState(PromodoroTime);
   const [timeCounting, setTimeCounting] = useState(false);
   const [working, setWorking] = useState(false);
+
+  useEffect(() => {
+    if (working) document.body.classList.add("working");
+    else {
+      console.log("descanso");
+    }
+  }, [working]);
   useInterval(
     () => {
       setMainTime(mainTime - 1);
