@@ -3,22 +3,24 @@ import { useInterval } from "../Hooks/useInterval";
 import Button from "./Button";
 import Timer from "./Timer";
 interface Props {
-  PromodoroTime: number;
+  pomodoroTime: number;
   shortRestTime: number;
   longRestTime: number;
   cycles: number;
 }
 
-const PomodoroTimer = ({ PromodoroTime }: Props) => {
-  const [mainTime, setMainTime] = useState(PromodoroTime);
+const PomodoroTimer = ({
+  pomodoroTime,
+  longRestTime,
+  shortRestTime,
+}: Props) => {
+  const [mainTime, setMainTime] = useState(pomodoroTime);
   const [timeCounting, setTimeCounting] = useState(false);
   const [working, setWorking] = useState(false);
-
+  const [resting, setResting] = useState(false);
   useEffect(() => {
     if (working) document.body.classList.add("working");
-    else {
-      console.log("descanso");
-    }
+    if (resting) document.body.classList.remove("working");
   }, [working]);
   useInterval(
     () => {
@@ -29,6 +31,19 @@ const PomodoroTimer = ({ PromodoroTime }: Props) => {
   const configureWork = () => {
     setTimeCounting(true);
     setWorking(true);
+    setResting(false);
+    setMainTime(pomodoroTime);
+  };
+
+  const configureResting = (long: boolean) => {
+    setTimeCounting(true);
+    setWorking(false);
+    setResting(true);
+    if (long) {
+      setMainTime(longRestTime);
+    } else {
+      setMainTime(shortRestTime);
+    }
   };
 
   return (
@@ -37,12 +52,12 @@ const PomodoroTimer = ({ PromodoroTime }: Props) => {
       <Timer mainTime={mainTime} />
       <div className="controls">
         <Button
-          text={working ? "working" : "work"}
+          text={working ? "Working" : "Work"}
           onClick={() => configureWork()}
         />
-        <Button text="texto" onClick={() => console.log(1)} />
+        <Button text="Rest" onClick={() => configureResting(false)} />
         <Button
-          text={timeCounting ? "pause" : "play"}
+          text={timeCounting ? "Pause" : "Play"}
           onClick={() => setTimeCounting(!timeCounting)}
         />
       </div>
