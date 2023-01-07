@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useInterval } from "../Hooks/useInterval";
-import SecondsToTime from "../Utils/SecondsToTime";
 import Button from "./Button";
 import Timer from "./Timer";
 interface Props {
