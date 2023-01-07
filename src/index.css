@@ -35,3 +35,24 @@ body {
   text-align: center;
   font-size: 6rem;
 }
+.pomodoro .controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.pomodoro button {
+  background: #41e1ba;
+  border: none;
+  font-weight: bold;
+  color: #000;
+  padding: 10px 25px;
+  cursor: pointer;
+  transition: background-color 300ms ease-in-out;
+  border-radius: 0.4rem;
+  margin: 20px auto;
+}
+.working .pomodoro button {
+  background: #ef5d50;
+
+  color: #fff;
+}
