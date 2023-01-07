@@ -16,7 +16,7 @@ const PomodoroTimer = ({ PromodoroTime }: Props) => {
   }, 1000);
   return (
     <div className="pomodoro">
-      <h1>You are working:</h1>
+      <h2>You are working</h2>
       <Timer mainTime={mainTime} />
       <Button text="texto" onClick={() => console.log(1)} />
     </div>

@@ -17,3 +17,21 @@ body {
 .working {
   background-color: #ef5d50;
 }
+.hidden {
+  display: none;
+}
+.pomodoro {
+  margin: 3rem 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.pomodoro h2 {
+  font-size: 1.7rem;
+  text-align: center;
+}
+.pomodoro .timer {
+  text-align: center;
+  font-size: 6rem;
+}
