@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useInterval } from "../Hooks/useInterval";
 import Button from "./Button";
 import Timer from "./Timer";
+import billStart from "../sounds/src_sounds_bell-start.mp3";
+import billFinish from "../sounds/src_sounds_bell-finish.mp3";
+
+const audioStartWorking = new Audio(billStart);
+const audioStopWorking = new Audio(billFinish);
 interface Props {
   pomodoroTime: number;
   shortRestTime: number;
@@ -33,6 +38,7 @@ const PomodoroTimer = ({
     setWorking(true);
     setResting(false);
     setMainTime(pomodoroTime);
+    audioStartWorking.play();
   };
 
   const configureResting = (long: boolean) => {
@@ -44,6 +50,7 @@ const PomodoroTimer = ({
     } else {
       setMainTime(shortRestTime);
     }
+    audioStopWorking.play();
   };
 
   return (
@@ -57,6 +64,7 @@ const PomodoroTimer = ({
         />
         <Button text="Rest" onClick={() => configureResting(false)} />
         <Button
+          className={!working && !resting ? "hidden" : ""}
           text={timeCounting ? "Pause" : "Play"}
           onClick={() => setTimeCounting(!timeCounting)}
         />
