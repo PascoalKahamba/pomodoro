@@ -5,7 +5,6 @@ import Timer from "./Timer";
 import billStart from "../sounds/src_sounds_bell-start.mp3";
 import billFinish from "../sounds/src_sounds_bell-finish.mp3";
 import SecondsToTime from "../Utils/SecondsToTime";
-
 const audioStartWorking = new Audio(billStart);
 const audioStopWorking = new Audio(billFinish);
 interface Props {
@@ -35,6 +34,7 @@ const PomodoroTimer = ({
   useInterval(
     () => {
       setMainTime(mainTime - 1);
+      if (working) setFullWorkingTime(fullWorkingTime + 1);
     },
     timeCounting ? 1000 : null
   );
