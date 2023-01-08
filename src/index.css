@@ -55,6 +55,7 @@ body {
   background: #ef5d50;
   color: #fff;
 }
-.pomodoro .datails {
+.pomodoro .details {
   margin: 20px 0;
+  font-weight: bold;
 }

@@ -4,6 +4,7 @@ import Button from "./Button";
 import Timer from "./Timer";
 import billStart from "../sounds/src_sounds_bell-start.mp3";
 import billFinish from "../sounds/src_sounds_bell-finish.mp3";
+import SecondsToTime from "../Utils/SecondsToTime";
 
 const audioStartWorking = new Audio(billStart);
 const audioStopWorking = new Audio(billFinish);
@@ -29,19 +30,8 @@ const PomodoroTimer = ({
   );
   const [completedCycles, setCompletedCycles] = useState(0);
   const [fullWorkingTime, setFullWorkingTime] = useState(0);
-  const [numberOfPomodoro, setNumberOfPomodoro] = useState(0);
-  useEffect(() => {
-    if (working) document.body.classList.add("working");
-    if (resting) document.body.classList.remove("working");
-    if (mainTime > 0) return;
-    if (working && cyclesQtdManager.length > 0) {
-      configureResting(false);
-      cyclesQtdManager.pop();
-    } else if (working && cyclesQtdManager.length <= 0) {
-      configureResting(true);
-      setcyClesQtdManager(new Array(cycles - 1).fill(true));
-    }
-  }, [working, resting]);
+  const [numberOfPomodoros, setNumberOfPomodoros] = useState(0);
+
   useInterval(
     () => {
       setMainTime(mainTime - 1);
@@ -56,7 +46,7 @@ const PomodoroTimer = ({
     audioStartWorking.play();
   };
 
-  const configureResting = (long: boolean) => {
+  const configureRest = (long: boolean) => {
     setTimeCounting(true);
     setWorking(false);
     setResting(true);
@@ -67,28 +57,62 @@ const PomodoroTimer = ({
     }
     audioStopWorking.play();
   };
-
+  useEffect(() => {
+    if (working) document.body.classList.add("working");
+    if (resting) document.body.classList.remove("working");
+    if (mainTime > 0) return;
+    if (working && cyclesQtdManager.length > 0) {
+      configureRest(false);
+      cyclesQtdManager.pop();
+    } else if (working && cyclesQtdManager.length <= 0) {
+      configureRest(true);
+      setcyClesQtdManager(new Array(cycles - 1).fill(true));
+      setCompletedCycles(completedCycles + 1);
+    }
+    if (working) setNumberOfPomodoros(numberOfPomodoros + 1);
+    if (resting) configureWork();
+  }, [
+    working,
+    resting,
+    mainTime,
+    cyclesQtdManager,
+    numberOfPomodoros,
+    completedCycles,
+    configureRest,
+    configureWork,
+    cyclesQtdManager,
+    cycles,
+  ]);
   return (
     <div className="pomodoro">
-      <h2>You are working</h2>
+      <h2>
+        {working
+          ? "Você esta trabalhando"
+          : resting
+          ? "Você esta descansando"
+          : "Começa agora a sua tarefa"}
+      </h2>
       <Timer mainTime={mainTime} />
       <div className="controls">
         <Button
-          text={working ? "Working" : "Work"}
+          text={working ? "Trabalhando" : "Trabalhar"}
           onClick={() => configureWork()}
         />
-        <Button text="Rest" onClick={() => configureResting(false)} />
+        <Button
+          text={resting ? "Descansando" : "Descansar"}
+          onClick={() => configureRest(false)}
+        />
         <Button
           className={!working && !resting ? "hidden" : ""}
-          text={timeCounting ? "Pause" : "Play"}
+          text={timeCounting ? "Pausar" : "Iniciar"}
           onClick={() => setTimeCounting(!timeCounting)}
         />
       </div>
 
       <div className="details">
-        <p>Exemple of the Details</p>
-        <p>Exemple of the Details</p>
-        <p>Exemple of the Details</p>
+        <p> Ciclos concluidos: {completedCycles}</p>
+        <p> Horas trabalhadas: {SecondsToTime(fullWorkingTime)}</p>
+        <p> Pomodoros concluidos: {numberOfPomodoros}</p>
       </div>
     </div>
   );
