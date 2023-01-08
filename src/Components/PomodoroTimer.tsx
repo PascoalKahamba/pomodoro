@@ -18,15 +18,30 @@ const PomodoroTimer = ({
   pomodoroTime,
   longRestTime,
   shortRestTime,
+  cycles,
 }: Props) => {
   const [mainTime, setMainTime] = useState(pomodoroTime);
   const [timeCounting, setTimeCounting] = useState(false);
   const [working, setWorking] = useState(false);
   const [resting, setResting] = useState(false);
+  const [cyclesQtdManager, setcyClesQtdManager] = useState(
+    new Array(cycles - 1).fill(true)
+  );
+  const [completedCycles, setCompletedCycles] = useState(0);
+  const [fullWorkingTime, setFullWorkingTime] = useState(0);
+  const [numberOfPomodoro, setNumberOfPomodoro] = useState(0);
   useEffect(() => {
     if (working) document.body.classList.add("working");
     if (resting) document.body.classList.remove("working");
-  }, [working]);
+    if (mainTime > 0) return;
+    if (working && cyclesQtdManager.length > 0) {
+      configureResting(false);
+      cyclesQtdManager.pop();
+    } else if (working && cyclesQtdManager.length <= 0) {
+      configureResting(true);
+      setcyClesQtdManager(new Array(cycles - 1).fill(true));
+    }
+  }, [working, resting]);
   useInterval(
     () => {
       setMainTime(mainTime - 1);
